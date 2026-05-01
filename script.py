@@ -21,11 +21,11 @@ silver = requests.get(
     timeout=10
 ).json()
 
-# --- DEBUG (IMPORTANT for fixing wrong values) ---
+# --- DEBUG ---
 print("GOLD RESPONSE:", gold)
 print("SILVER RESPONSE:", silver)
 
-# --- SAFE PRICE EXTRACTION (fixes wrong 4L issue) ---
+# --- SAFE PRICE EXTRACTION ---
 def get_price(data):
     return (
         data.get("price_gram_24k") or
@@ -37,8 +37,10 @@ def get_price(data):
 gold_price = get_price(gold)
 silver_price = get_price(silver)
 
-# --- CALCULATIONS ---
-ratio = gold_price / silver_price if silver_price else 0
+# --- CALCULATIONS (UPDATED) ---
+# Silver → Gold ratio (your requested version)
+ratio = silver_price / gold_price if gold_price else 0
+
 silver_percent = (silver_price / gold_price) * 100 if gold_price else 0
 
 # --- EMAIL CONTENT ---
@@ -49,10 +51,10 @@ else:
 Gold: ₹{gold_price:,.2f}
 Silver: ₹{silver_price:,.2f}
 
-Gold/Silver Ratio: {ratio:.2f}
+Silver/Gold Ratio: {ratio:.6f}
 
-Gold is ~{ratio:.0f}x costlier than silver
 Silver is ~{silver_percent:.2f}% the price of gold
+(OR) 1 unit of silver ≈ {ratio:.6f} units of gold
 """
 
 subject = "Daily Gold & Silver Update"
