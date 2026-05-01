@@ -2,7 +2,7 @@ import requests
 import smtplib
 import os
 from email.mime.text import MIMEText
-
+print("API_KEY:", API_KEY)
 # --- GET DATA ---
 API_KEY = os.environ.get("GOLD_API_KEY")
 
