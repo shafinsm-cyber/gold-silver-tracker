@@ -4,7 +4,7 @@ import os
 from email.mime.text import MIMEText
 
 # --- GET DATA ---
-API_KEY = "goldapi-3da0493b5e5741821abcad22a6fd33e0-io"
+API_KEY = os.environ.get("GOLD_API_KEY")
 
 headers = {"x-access-token": API_KEY}
 
