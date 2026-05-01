@@ -24,4 +24,5 @@ jobs:
       - name: Run script
         env:
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          GOLD_API_KEY: ${{ secrets.GOLD_API_KEY }}
         run: python script.py
