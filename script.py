@@ -1,5 +1,6 @@
 import requests
 import smtplib
+import os
 from email.mime.text import MIMEText
 
 # --- GET DATA ---
@@ -25,7 +26,7 @@ Ratio: {ratio:.2f}
 
 sender = "your_email@gmail.com"
 receiver = "your_email@gmail.com"
-password = "your_app_password"
+password = os.environ.get("EMAIL_PASS")
 
 msg = MIMEText(body)
 msg["Subject"] = subject
