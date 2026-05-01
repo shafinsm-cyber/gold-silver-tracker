@@ -4,7 +4,7 @@ import os
 from email.mime.text import MIMEText
 
 # --- GET DATA ---
-API_KEY = "demo"
+API_KEY = "goldapi-3da0493b5e5741821abcad22a6fd33e0-io"
 
 headers = {"x-access-token": API_KEY}
 
@@ -15,20 +15,25 @@ gold_price = gold.get("price", 0)
 silver_price = silver.get("price", 0)
 
 ratio = gold_price / silver_price if silver_price else 0
+silver_percent = (silver_price / gold_price) * 100 if gold_price else 0
 
 # --- EMAIL ---
 subject = "Daily Gold & Silver Update"
-body = f"""
+message = f"""
 Gold: ₹{gold_price}
 Silver: ₹{silver_price}
-Ratio: {ratio:.2f}
+
+Gold/Silver Ratio: {ratio:.2f}
+
+Gold is ~{ratio:.0f}x costlier than silver
+Silver is ~{silver_percent:.2f}% the price of gold
 """
 
 sender = "shafinsm@gmail.com"
 receiver = "asifisa57@gmail.com"
 password = os.environ.get("EMAIL_PASS")
 
-msg = MIMEText(body)
+msg = MIMEText(message)
 msg["Subject"] = subject
 msg["From"] = sender
 msg["To"] = receiver
