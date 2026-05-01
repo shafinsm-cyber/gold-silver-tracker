@@ -6,13 +6,36 @@ from email.mime.text import MIMEText
 # --- GET DATA ---
 API_KEY = os.environ.get("GOLD_API_KEY")
 print("API_KEY:", API_KEY)
+
 headers = {"x-access-token": API_KEY}
 
-gold = requests.get("https://www.goldapi.io/api/XAU/INR", headers=headers, timeout=10).json()
-silver = requests.get("https://www.goldapi.io/api/XAG/INR", headers=headers, timeout=10).json()
+gold = requests.get(
+    "https://www.goldapi.io/api/XAU/INR",
+    headers=headers,
+    timeout=10
+).json()
 
-gold_price = gold.get("price", 0)
-silver_price = silver.get("price", 0)
+silver = requests.get(
+    "https://www.goldapi.io/api/XAG/INR",
+    headers=headers,
+    timeout=10
+).json()
+
+# --- DEBUG (IMPORTANT for fixing wrong values) ---
+print("GOLD RESPONSE:", gold)
+print("SILVER RESPONSE:", silver)
+
+# --- SAFE PRICE EXTRACTION (fixes wrong 4L issue) ---
+def get_price(data):
+    return (
+        data.get("price_gram_24k") or
+        data.get("price_gram_22k") or
+        data.get("price") or
+        0
+    )
+
+gold_price = get_price(gold)
+silver_price = get_price(silver)
 
 # --- CALCULATIONS ---
 ratio = gold_price / silver_price if silver_price else 0
@@ -20,7 +43,7 @@ silver_percent = (silver_price / gold_price) * 100 if gold_price else 0
 
 # --- EMAIL CONTENT ---
 if gold_price == 0 or silver_price == 0:
-    message = "⚠️ Error fetching gold/silver prices. Please check API."
+    message = "⚠️ Error fetching gold/silver prices. Check API response."
 else:
     message = f"""
 Gold: ₹{gold_price:,.2f}
