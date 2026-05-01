@@ -2,10 +2,10 @@ import requests
 import smtplib
 import os
 from email.mime.text import MIMEText
-print("API_KEY:", API_KEY)
+
 # --- GET DATA ---
 API_KEY = os.environ.get("GOLD_API_KEY")
-
+print("API_KEY:", API_KEY)
 headers = {"x-access-token": API_KEY}
 
 gold = requests.get("https://www.goldapi.io/api/XAU/INR", headers=headers, timeout=10).json()
