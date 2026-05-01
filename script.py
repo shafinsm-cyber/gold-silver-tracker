@@ -24,8 +24,8 @@ Silver: ₹{silver_price}
 Ratio: {ratio:.2f}
 """
 
-sender = "your_email@gmail.com"
-receiver = "your_email@gmail.com"
+sender = "shafinsm@gmail.com"
+receiver = "asifisa57@gmail.com"
 password = os.environ.get("EMAIL_PASS")
 
 msg = MIMEText(body)
